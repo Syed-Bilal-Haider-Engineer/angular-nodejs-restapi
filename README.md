@@ -1,52 +1,27 @@
-# Angular NodeJS REST API Integration
+# Http
 
-An Angular project demonstrating **REST API integration** with a **Node.js backend**, featuring **services**, **Observables**, and real-time data streaming. Includes examples of **two-way binding**, **template variables**, and full CRUD operations.
+This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 18.0.0.
 
----
+## Development server
 
-## Table of Contents
-- [Project Overview](#project-overview)
-- [Features](#features)
-- [Tech Stack](#tech-stack)
-- [Installation](#installation)
-- [Usage](#usage)
-- [Folder Structure](#folder-structure)
-- [License](#license)
+Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
 
----
+## Code scaffolding
 
-## Project Overview
-This project is a **full-stack Angular + Node.js application** showcasing:  
-- REST API integration for backend communication  
-- Angular **services** to handle API calls efficiently  
-- **Observables** and **RxJS** for reactive data streaming  
-- Two-way binding and template variables in Angular components  
-- CRUD operations with real-time updates  
-- Node.js backend using Express.js to manage routes and data
+Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
 
----
+## Build
 
-## Features
-- Fetching and posting data to REST APIs  
-- Reactive data handling using Observables  
-- Template-driven and reactive forms in Angular  
-- Dynamic UI updates using two-way binding  
-- Modular and scalable Angular services  
-- Backend Node.js API with Express.js routes  
+Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
 
----
+## Running unit tests
 
-## Tech Stack
-- **Frontend:** Angular, RxJS, HTML, CSS, TypeScript  
-- **Backend:** Node.js, Express.js  
-- **Database:** (JSON)  
-- **Communication:** RESTful APIs  
+Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
 
----
+## Running end-to-end tests
 
-## Installation
+Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To use this command, you need to first add a package that implements end-to-end testing capabilities.
 
-### Clone the repository
-```bash
-git clone https://github.com/your-username/angular-nodejs-restapi.git
-cd angular-nodejs-restapi
+## Further help
+
+To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
