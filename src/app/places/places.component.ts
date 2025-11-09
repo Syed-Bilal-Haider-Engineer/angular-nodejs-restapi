@@ -1,4 +1,4 @@
-import { Component, input, output } from '@angular/core';
+import { Component, input, output, OnInit } from '@angular/core';
 
 import { Place } from './place.model';
 
@@ -12,7 +12,9 @@ import { Place } from './place.model';
 export class PlacesComponent {
   places = input.required<Place[]>();
   selectPlace = output<Place>();
-
+   OnInit(){
+    console.log("places user",this.places)
+   }
   onSelectPlace(place: Place) {
     this.selectPlace.emit(place);
   }
