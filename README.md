@@ -1,3 +1,21 @@
+# Angular + Node.js CRUD Project
+
+## Project Overview
+
+Angular project demonstrating **REST API integration** with a **Node.js backend**, showcasing modern Angular features and best practices. The app performs **CRUD operations**, handles errors globally, and provides real-time data updates using **Observables**.
+
+## Key Features
+
+- ✅ REST API integration with Node.js backend  
+- ✅ Full CRUD operations (Create, Read, Update, Delete)  
+- ✅ Angular Services for modular and reusable code  
+- ✅ Observables for data streaming and real-time updates     
+- ✅ Global error handling using an HTTP interceptor  
+- ✅ Display of errors through a reusable error modal component  
+- ✅ Clean architecture with maintainable and scalable code
+
+<img width="1347" height="870" alt="image" src="https://github.com/user-attachments/assets/3482842f-304a-4869-96d4-50f5ed5c60a6" />
+
 # Http
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 18.0.0.
