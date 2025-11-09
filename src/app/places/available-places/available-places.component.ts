@@ -1,9 +1,8 @@
-import { Component, DestroyRef, inject, OnInit, signal } from '@angular/core';
+import { Component, DestroyRef, OnInit, inject, signal } from '@angular/core';
 import { Place } from '../place.model';
 import { PlacesComponent } from '../places.component';
 import { PlacesContainerComponent } from '../places-container/places-container.component';
-import { HttpClient } from '@angular/common/http';
-import { catchError, map, of } from 'rxjs';
+import { PlacesService } from '../places.service';
 
 @Component({
   selector: 'app-available-places',
@@ -13,70 +12,28 @@ import { catchError, map, of } from 'rxjs';
   imports: [PlacesComponent, PlacesContainerComponent],
 })
 export class AvailablePlacesComponent implements OnInit {
-  places = signal<Place[] | undefined>(undefined);
-  private readonly httpClient = inject(HttpClient);
   private readonly destroyRef = inject(DestroyRef);
-  isFetch = signal(false)
-  errorMessage = signal<string | undefined>('')
+  private readonly placesService = inject(PlacesService);
+
+  places = this.placesService.places;
+  isFetch = this.placesService.isFetch;
+  errorMessage = this.placesService.errorMessage;
+
   ngOnInit(): void {
-    this.isFetch.set(true);
-    const subscription = this.httpClient.get<{places:Place[]}>("http://localhost:3000/places").pipe(
-      map((resData) =>{
-        return resData.places
-      }),
-      catchError((error) =>{
-        this.errorMessage.set('Failed to fetch places. Please try again later.');
-          console.error('HTTP Error:', error);
-          this.isFetch.set(false);
-          return of([] as Place[])
-      })
-    ).subscribe({
-
-      next: (places) => {
-        this.places.set(places);
-      },
-      // error: err => {
-      //     this.errorMessage.set('Failed to fetch places. Please try again later.');
-      //     console.error('HTTP Error:', err);
-      //     this.isFetch.set(false);
-      //   },
-      complete:()=>{
-        this.isFetch.set(false)
-      }
+    const subscription = this.placesService.loadAvailablePlaces("http://localhost:3000/places").subscribe((places) => {
+      this.places.set(places);
     });
 
-    this.destroyRef.onDestroy(() => {
-      subscription.unsubscribe();
-    });
+    this.destroyRef.onDestroy(() => subscription.unsubscribe());
   }
 
-    onSelectUserPlaces(selectedPlace: Place) {
-      console.log("selectedPlace==>",selectedPlace)
-    if(selectedPlace?.id) {
-      const subscription = this.httpClient
-      .put('http://localhost:3000/user-places', {
-        placeId: selectedPlace?.id,
-      })
-      .subscribe({
-        next: (response) => {
-          //  this.places.set(response.places);
-          console.log('places', response);
-        },
-        error: (err) => {
-          this.errorMessage.set(
-            'Failed to fetch places. Please try again later.'
-          );
-          console.error('HTTP Error:', err);
-          this.isFetch.set(false);
-        },
-        complete: () => {
-          this.isFetch.set(false);
-        },
-      });
-
-    this.destroyRef.onDestroy(() => {
-      subscription.unsubscribe();
+  onSelectUserPlaces(selectedPlace: Place) {
+    const subscription = this.placesService.addPlaceToUserPlaces("http://localhost:3000/user-places",selectedPlace).subscribe({
+      next: (response) => {
+        console.log('Added to user places:', response);
+      },
     });
-    }
+
+    this.destroyRef.onDestroy(() => subscription.unsubscribe());
   }
 }
