@@ -1,4 +1,4 @@
-import { Component, DestroyRef, OnInit, inject, signal } from '@angular/core';
+import { Component, DestroyRef, OnInit, inject } from '@angular/core';
 import { Place } from '../place.model';
 import { PlacesComponent } from '../places.component';
 import { PlacesContainerComponent } from '../places-container/places-container.component';
@@ -16,8 +16,6 @@ export class AvailablePlacesComponent implements OnInit {
   private readonly placesService = inject(PlacesService);
 
   places = this.placesService.places;
-  isFetch = this.placesService.isFetch;
-  errorMessage = this.placesService.errorMessage;
 
   ngOnInit(): void {
     const subscription = this.placesService.loadAvailablePlaces("http://localhost:3000/places").subscribe((places) => {
@@ -28,12 +26,9 @@ export class AvailablePlacesComponent implements OnInit {
   }
 
   onSelectUserPlaces(selectedPlace: Place) {
-    const subscription = this.placesService.addPlaceToUserPlaces("http://localhost:3000/user-places",selectedPlace).subscribe({
-      next: (response) => {
-        console.log('Added to user places:', response);
-      },
+    const subscription = this.placesService.addPlaceToUserPlaces("http://localhost:3000/user-places", selectedPlace).subscribe({
+      error: (err:any) => console.error('Failed to add place:', err),
     });
-
     this.destroyRef.onDestroy(() => subscription.unsubscribe());
   }
 }

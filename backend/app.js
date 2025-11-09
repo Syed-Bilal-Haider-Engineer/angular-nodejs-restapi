@@ -38,12 +38,10 @@ app.get("/user-places", async (req, res) => {
 
 app.put("/user-places", async (req, res) => {
   const placeId = req.body.placeId;
-  console.log("placeId==>",placeId)
   const fileContent = await fs.readFile("./data/places.json");
   const placesData = JSON.parse(fileContent);
 
   const place = placesData.find((place) => place?.id === placeId);
-  console.log("place==>",place)
   const userPlacesFileContent = await fs.readFile("./data/user-places.json");
   const userPlacesData = JSON.parse(userPlacesFileContent);
 

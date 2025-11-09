@@ -1,11 +1,15 @@
 import { HttpErrorResponse, HttpEvent, HttpHandler, HttpInterceptor, HttpRequest } from "@angular/common/http";
-import { Injectable } from "@angular/core";
+import { Injectable, inject } from "@angular/core";
 import { catchError, Observable, throwError } from "rxjs";
+import { ErrorService } from "../../shared/shared/error.service";
+
 @Injectable()
 export class GlobalInterceptErrorHandler implements HttpInterceptor {
+  private errorService = inject(ErrorService);
+
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-    return next.handle(req).pipe (catchError((error:HttpErrorResponse) =>
-        {
+    return next.handle(req).pipe(
+      catchError((error: HttpErrorResponse) => {
         let message = '';
 
         switch (error.status) {
@@ -27,7 +31,10 @@ export class GlobalInterceptErrorHandler implements HttpInterceptor {
           default:
             message = `Unexpected Error: ${error.message}`;
         }
-        return throwError(() => new Error(message))
-    }))   
+        this.errorService.showError(message);
+        
+        return throwError(() => new Error(message));
+      })
+    );
   }
 }

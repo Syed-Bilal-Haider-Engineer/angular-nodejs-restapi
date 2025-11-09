@@ -15,12 +15,11 @@ export class UserPlacesComponent implements OnInit {
   private readonly placesService = inject(PlacesService);
 
   places = this.placesService.loadedUserPlaces; 
-  isFetch = this.placesService.isFetch;
-  errorMessage = this.placesService.errorMessage;
-
   ngOnInit(): void {
     const subscription = this.placesService.loadUserPlaces("http://localhost:3000/user-places").subscribe({
-      next: (places) => this.placesService.places.set(places),
+      next: (places) => {
+        this.placesService.setUserPlaces(places);
+      },
       error: (err) => console.error('Subscription Error:', err),
     });
     this.destroyRef.onDestroy(() => subscription.unsubscribe());
